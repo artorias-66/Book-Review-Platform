@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: book-review-platform
+    env: node
+    plan: free
+    buildCommand: |
+      npm run install-all
+      npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: PORT
+        value: 10000
+      - key: REACT_APP_API_URL
+        value: https://book-review-platform.onrender.com/api
