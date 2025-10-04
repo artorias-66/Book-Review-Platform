@@ -106,3 +106,4 @@ Expected: React app running on port 3000
 - Reviews load with book details
 - User data loads on profile page
 - All API calls have proper error handling
+
