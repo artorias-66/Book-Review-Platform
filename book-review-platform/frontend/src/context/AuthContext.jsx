@@ -14,13 +14,20 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            const userPayload = {
-                id: decodedToken.id,
-                token: token
-            };
-            setUser(userPayload);
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            try {
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                const userPayload = {
+                    id: decodedToken.id,
+                    name: decodedToken.name || 'User',
+                    email: decodedToken.email || '',
+                    token: token
+                };
+                setUser(userPayload);
+                api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                localStorage.removeItem('token');
+            }
         }
         setLoading(false);
     }, []);
@@ -31,6 +38,8 @@ export const AuthProvider = ({ children }) => {
         const decodedToken = JSON.parse(atob(data.token.split('.')[1]));
         const userPayload = {
             id: decodedToken.id,
+            name: data.name,
+            email: data.email,
             token: data.token
         };
         setUser(userPayload);
@@ -44,7 +53,17 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (name, email, password) => {
-        await api.post('/auth/register', { name, email, password });
+        const { data } = await api.post('/auth/register', { name, email, password });
+        localStorage.setItem('token', data.token);
+        const decodedToken = JSON.parse(atob(data.token.split('.')[1]));
+        const userPayload = {
+            id: decodedToken.id,
+            name: data.name,
+            email: data.email,
+            token: data.token
+        };
+        setUser(userPayload);
+        api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
     };
 
     const value = {

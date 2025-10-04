@@ -100,3 +100,13 @@ exports.deleteBook = async (req, res) => {
         res.status(500).json({ message: 'Error deleting book', error });
     }
 };
+
+// Get books by user
+exports.getBooksByUser = async (req, res) => {
+    try {
+        const books = await Book.find({ addedBy: req.params.userId }).populate('addedBy', 'name');
+        res.json(books);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching user books', error });
+    }
+};

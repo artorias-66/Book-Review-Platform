@@ -1,49 +1,81 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api'; // Adjust the URL as needed
+const API_URL = 'http://localhost:5000/api';
+
+const api = axios.create({
+    baseURL: API_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
 // Auth API calls
 export const registerUser = async (userData) => {
-    const response = await axios.post(`${API_URL}/auth/register`, userData);
+    const response = await api.post('/auth/register', userData);
     return response.data;
 };
 
 export const loginUser = async (userData) => {
-    const response = await axios.post(`${API_URL}/auth/login`, userData);
+    const response = await api.post('/auth/login', userData);
     return response.data;
 };
 
 // Book API calls
-export const fetchBooks = async () => {
-    const response = await axios.get(`${API_URL}/books`);
+export const fetchBooks = async (page = 1) => {
+    const response = await api.get(`/books?page=${page}`);
     return response.data;
 };
 
 export const fetchBookById = async (bookId) => {
-    const response = await axios.get(`${API_URL}/books/${bookId}`);
+    const response = await api.get(`/books/${bookId}`);
     return response.data;
 };
 
-export const createBook = async (bookData, token) => {
-    const response = await axios.post(`${API_URL}/books`, bookData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+export const createBook = async (bookData) => {
+    const response = await api.post('/books', bookData);
+    return response.data;
+};
+
+export const updateBook = async (bookId, bookData) => {
+    const response = await api.put(`/books/${bookId}`, bookData);
+    return response.data;
+};
+
+export const deleteBook = async (bookId) => {
+    const response = await api.delete(`/books/${bookId}`);
     return response.data;
 };
 
 // Review API calls
 export const fetchReviewsByBookId = async (bookId) => {
-    const response = await axios.get(`${API_URL}/reviews/${bookId}`);
+    const response = await api.get(`/reviews/${bookId}`);
     return response.data;
 };
 
-export const addReview = async (bookId, reviewData, token) => {
-    const response = await axios.post(`${API_URL}/reviews/${bookId}`, reviewData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+export const addReview = async (reviewData) => {
+    const response = await api.post('/reviews', reviewData);
     return response.data;
 };
+
+export const updateReview = async (reviewId, reviewData) => {
+    const response = await api.put(`/reviews/${reviewId}`, reviewData);
+    return response.data;
+};
+
+export const deleteReview = async (reviewId) => {
+    const response = await api.delete(`/reviews/${reviewId}`);
+    return response.data;
+};
+
+// User API calls
+export const fetchUserBooks = async (userId) => {
+    const response = await api.get(`/books/user/${userId}`);
+    return response.data;
+};
+
+export const fetchUserReviews = async (userId) => {
+    const response = await api.get(`/reviews/user/${userId}`);
+    return response.data;
+};
+
+export default api;

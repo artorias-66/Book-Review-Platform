@@ -1,27 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import BookList from '../components/Books/BookList';
 
 const Home = () => {
-    const [books, setBooks] = useState([]);
-
-    useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                const response = await axios.get('/api/books');
-                setBooks(response.data);
-            } catch (error) {
-                console.error('Error fetching books:', error);
-            }
-        };
-
-        fetchBooks();
-    }, []);
-
     return (
-        <div>
-            <h1>Book Review Platform</h1>
-            <BookList books={books} />
+        <div style={{ padding: '2rem' }}>
+            <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
+                Welcome to Book Review Platform
+            </h1>
+            <p style={{ textAlign: 'center', marginBottom: '2rem', color: '#666', fontSize: '1.1rem' }}>
+                Discover, review, and share your favorite books with the community
+            </p>
+            <BookList />
         </div>
     );
 };

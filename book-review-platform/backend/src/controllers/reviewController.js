@@ -74,3 +74,15 @@ exports.deleteReview = async (req, res) => {
         res.status(500).json({ message: 'Error deleting review', error });
     }
 };
+
+// Get reviews by user
+exports.getReviewsByUser = async (req, res) => {
+    try {
+        const reviews = await Review.find({ userId: req.params.userId })
+            .populate('bookId', 'title author')
+            .populate('userId', 'name');
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching user reviews', error });
+    }
+};

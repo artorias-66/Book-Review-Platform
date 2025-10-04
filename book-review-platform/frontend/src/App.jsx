@@ -1,13 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import BookPage from './pages/BookPage';
 import Profile from './pages/Profile';
+import AddBook from './pages/AddBook';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
-import ProtectedRoute from './components/Auth/ProtectedRoute';
+import ProtectedRoute from './context/ProtectedRoute';
 
 const App = () => {
   return (
@@ -24,6 +25,22 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/add-book" 
+            element={
+              <ProtectedRoute>
+                <AddBook />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/edit-book/:id" 
+            element={
+              <ProtectedRoute>
+                <AddBook />
               </ProtectedRoute>
             } 
           />
