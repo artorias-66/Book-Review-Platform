@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
     res.json({ 
         status: 'OK', 
         message: 'Book Review Platform API is running',
+        database: mongoose.connection.readyState === 1 ? 'Connected' : 'Not connected',
         endpoints: {
             auth: '/api/auth',
             books: '/api/books',

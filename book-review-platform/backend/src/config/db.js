@@ -5,15 +5,16 @@ const connectDB = async () => {
         let mongoURI = process.env.MONGO_URI;
         
         if (!mongoURI) {
-            console.error('MongoDB connection failed: MONGO_URI environment variable is not set');
-            console.log('Please set MONGO_URI in your environment variables');
+            console.warn('MONGO_URI environment variable is not set');
+            console.log('Please set MONGO_URI in your environment variables for full functionality');
             
             // For development, you can use a local MongoDB
             if (process.env.NODE_ENV !== 'production') {
                 mongoURI = 'mongodb://localhost:27017/bookreview';
                 console.log('Using local MongoDB for development');
             } else {
-                process.exit(1);
+                console.log('Skipping MongoDB connection in production without MONGO_URI');
+                return; // Don't exit, just skip the connection
             }
         }
 
@@ -24,7 +25,8 @@ const connectDB = async () => {
         console.log('MongoDB connected successfully');
     } catch (error) {
         console.error('MongoDB connection failed:', error.message);
-        process.exit(1);
+        console.log('Continuing without MongoDB connection...');
+        // Don't exit the process, just log the error
     }
 };
 
