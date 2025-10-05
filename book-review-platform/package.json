@@ -2,9 +2,9 @@
   "name": "book-review-platform",
   "version": "1.0.0",
   "description": "Full-stack MERN Book Review Platform",
-  "main": "backend/src/app.js",
+  "main": "start.js",
   "scripts": {
-    "start": "cd backend && npm start",
+    "start": "node start.js",
     "build": "cd frontend && npm install && npm run build",
     "install-all": "cd backend && npm install && cd ../frontend && npm install",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
