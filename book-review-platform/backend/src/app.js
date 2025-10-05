@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? true  // Allow all origins in production
+        ? ['https://book-review-platform-sage-one.vercel.app', 'https://book-review-platform.vercel.app']  // Allow your Vercel frontend
         : 'http://localhost:3000',
     credentials: true
 }));
