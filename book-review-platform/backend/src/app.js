@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://book-review-platform.onrender.com', 'https://book-review-frontend.onrender.com']
+        ? true  // Allow all origins in production (Vercel/Render)
         : 'http://localhost:3000',
     credentials: true
 }));
@@ -32,10 +32,10 @@ const PORT = process.env.PORT || 5000;
 
 // Serve static files from React app in production
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/build')));
+    app.use(express.static(path.join(__dirname, '../../frontend/build')));
     
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+        res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
     });
 }
 

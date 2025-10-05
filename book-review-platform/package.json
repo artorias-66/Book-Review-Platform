@@ -5,10 +5,8 @@
   "main": "backend/src/app.js",
   "scripts": {
     "start": "cd backend && npm start",
-    "build": "cd frontend && npm run build",
-    "install-backend": "cd backend && npm install",
-    "install-frontend": "cd frontend && npm install",
-    "install-all": "npm run install-backend && npm run install-frontend",
+    "build": "cd frontend && npm install && npm run build",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
   },
   "keywords": ["mern", "react", "node", "mongodb", "book-review"],

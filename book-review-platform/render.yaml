@@ -16,5 +16,3 @@ services:
         sync: false
       - key: PORT
         value: 10000
-      - key: REACT_APP_API_URL
-        value: https://book-review-platform.onrender.com/api
