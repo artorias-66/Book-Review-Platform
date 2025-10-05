@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? true  // Allow all origins in production (Vercel/Render)
+        ? ['https://book-review-platform.vercel.app', 'https://book-review-platform-frontend.vercel.app']  // Allow Vercel frontend
         : 'http://localhost:3000',
     credentials: true
 }));
@@ -30,21 +30,15 @@ app.use('/api/reviews', reviewRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-// Serve static files from React app in production
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../../frontend/build')));
-    
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
-    });
-}
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK', message: 'Backend is running' });
+});
 
 // Export for Vercel
 module.exports = app;
 
-// Only start server if not in Vercel environment
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
-}
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

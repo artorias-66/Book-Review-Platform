@@ -2,18 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/auth.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/books.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/reviews.js",
-      "use": "@vercel/node"
-    },
-    {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -22,18 +10,6 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/auth/(.*)",
-      "dest": "/api/auth.js"
-    },
-    {
-      "src": "/api/books/(.*)",
-      "dest": "/api/books.js"
-    },
-    {
-      "src": "/api/reviews/(.*)",
-      "dest": "/api/reviews.js"
-    },
     {
       "src": "/(.*)",
       "dest": "/frontend/build/index.html"

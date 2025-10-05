@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.NODE_ENV === 'production' 
-    ? '/api'  // Use relative path for Vercel
+    ? 'https://book-review-platform-backend.onrender.com/api'  // Render backend URL
     : 'http://localhost:5000/api';
 
 const api = axios.create({
