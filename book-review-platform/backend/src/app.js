@@ -13,15 +13,19 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? ['https://book-review-platform-sage-one.vercel.app', 'https://book-review-platform.vercel.app']  // Allow your Vercel frontend
-        : 'http://localhost:3000',
+    origin: true,  // Allow all origins in production (temporary fix)
     credentials: true
 }));
 app.use(bodyParser.json());
 
 // Database Connection
 connectDB();
+
+// Add error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -54,4 +58,6 @@ module.exports = app;
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV}`);
+    console.log(`MongoDB URI: ${process.env.MONGO_URI ? 'Set' : 'Not set'}`);
 });
