@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://book-review-platform.vercel.app', 'https://book-review-platform-frontend.vercel.app']  // Allow Vercel frontend
+        ? true  // Allow all origins in production
         : 'http://localhost:3000',
     credentials: true
 }));
@@ -29,6 +29,19 @@ app.use('/api/books', bookRoutes);
 app.use('/api/reviews', reviewRoutes);
 
 const PORT = process.env.PORT || 5000;
+
+// Root endpoint
+app.get('/', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        message: 'Book Review Platform API is running',
+        endpoints: {
+            auth: '/api/auth',
+            books: '/api/books',
+            reviews: '/api/reviews'
+        }
+    });
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {

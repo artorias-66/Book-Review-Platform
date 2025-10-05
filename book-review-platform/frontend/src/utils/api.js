@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.NODE_ENV === 'production' 
-    ? 'https://book-review-platform-backend.onrender.com/api'  // Render backend URL
+    ? 'https://book-review-platform-1-vnd3.onrender.com/api'  // Your actual Render URL
     : 'http://localhost:5000/api';
 
 const api = axios.create({
