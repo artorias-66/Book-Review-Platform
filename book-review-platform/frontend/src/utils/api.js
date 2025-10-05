@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.NODE_ENV === 'production' 
-    ? '/api'  // Use relative path in production
+    ? 'https://book-review-platform.vercel.app/api'  // Vercel URL
     : 'http://localhost:5000/api';
 
 const api = axios.create({
