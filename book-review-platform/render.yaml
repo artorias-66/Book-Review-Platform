@@ -4,8 +4,9 @@ services:
     env: node
     plan: free
     buildCommand: |
-      npm run install-all
-      npm run build
+      npm install
+      cd backend && npm install
+      cd ../frontend && npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV

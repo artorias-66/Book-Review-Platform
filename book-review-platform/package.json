@@ -2,16 +2,25 @@
   "name": "book-review-platform",
   "version": "1.0.0",
   "description": "Full-stack MERN Book Review Platform",
-  "main": "start.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node start.js",
+    "start": "node server.js",
     "build": "cd frontend && npm install && npm run build",
-    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
   },
   "keywords": ["mern", "react", "node", "mongodb", "book-review"],
   "author": "Your Name",
   "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "dotenv": "^8.6.0"
+  },
   "devDependencies": {
     "concurrently": "^7.6.0"
   }
