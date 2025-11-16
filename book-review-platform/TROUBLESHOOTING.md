@@ -28,7 +28,8 @@ mongod
 **Solution**: 
 - Check username and password in MongoDB Atlas
 - Ensure special characters in password are URL-encoded
-- Example: `mongodb+srv://user:p%40ssword@cluster.mongodb.net/bookreview`
+- Example: `mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@your-cluster.mongodb.net/bookreview`
+- Special chars need encoding (e.g., @ becomes %40, # becomes %23)
 
 #### Error: "IP not whitelisted"
 **Cause**: Your IP is not allowed in MongoDB Atlas
