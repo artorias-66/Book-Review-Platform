@@ -4,25 +4,33 @@ const reviewSchema = new mongoose.Schema({
     bookId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Book',
-        required: true
+        required: [true, 'Book ID is required']
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: [true, 'User ID is required']
     },
     rating: {
         type: Number,
-        required: true,
-        min: 1,
-        max: 5
+        required: [true, 'Rating is required'],
+        min: [1, 'Rating must be at least 1'],
+        max: [5, 'Rating cannot exceed 5']
     },
     reviewText: {
         type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 500
+        required: [true, 'Review text is required'],
+        trim: true,
+        minlength: [10, 'Review must be at least 10 characters long'],
+        maxlength: [1000, 'Review cannot exceed 1000 characters']
     },
 }, { timestamps: true });
+
+// Index for faster queries
+reviewSchema.index({ bookId: 1 });
+reviewSchema.index({ userId: 1 });
+
+// Prevent duplicate reviews from same user for same book
+reviewSchema.index({ bookId: 1, userId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

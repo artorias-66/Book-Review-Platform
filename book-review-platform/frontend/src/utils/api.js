@@ -1,15 +1,57 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'production' 
-    ? 'https://book-review-platform-1-vnd3.onrender.com/api'  // Your Render backend URL
-    : 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 
+    (process.env.NODE_ENV === 'production' 
+        ? 'https://book-review-platform-1-vnd3.onrender.com/api'
+        : 'http://localhost:5000/api');
 
 const api = axios.create({
     baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
+    timeout: 10000, // 10 second timeout
 });
+
+// Request interceptor to add auth token
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Response interceptor for better error handling
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response) {
+            // Server responded with error status
+            console.error('API Error:', error.response.status, error.response.data);
+            
+            // Handle unauthorized access
+            if (error.response.status === 401) {
+                localStorage.removeItem('token');
+                if (window.location.pathname !== '/login') {
+                    window.location.href = '/login';
+                }
+            }
+        } else if (error.request) {
+            // Request made but no response
+            console.error('Network Error:', error.message);
+            error.message = 'Network error. Please check your connection.';
+        } else {
+            console.error('Error:', error.message);
+        }
+        return Promise.reject(error);
+    }
+);
 
 // Auth API calls
 export const registerUser = async (userData) => {

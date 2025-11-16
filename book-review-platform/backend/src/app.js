@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
@@ -11,12 +13,40 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware
-app.use(cors({
-    origin: true,  // Allow all origins in production (temporary fix)
-    credentials: true
-}));
-app.use(bodyParser.json());
+// Security Middleware
+app.use(helmet());
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+// Apply rate limiting to API routes
+app.use('/api/', limiter);
+
+// Stricter rate limiting for auth routes
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5, // 5 requests per 15 minutes
+    message: 'Too many authentication attempts, please try again later.',
+});
+
+// CORS Configuration
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+// Body parser middleware with size limits
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Database Connection
 connectDB();
@@ -28,7 +58,7 @@ app.use((err, req, res, next) => {
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/reviews', reviewRoutes);
 
