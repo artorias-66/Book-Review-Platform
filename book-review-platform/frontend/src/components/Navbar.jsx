@@ -45,7 +45,7 @@ const Navbar = () => {
                                 </button>
                             </li>
                             <li style={styles.navItem}>
-                                <span style={styles.username}>Hi, {user.name}!</span>
+                                <span style={styles.username}>👋 {user.name}</span>
                             </li>
                         </>
                     ) : (
@@ -87,7 +87,7 @@ const Navbar = () => {
                             <button onClick={handleLogout} style={styles.mobileLogoutBtn}>
                                 🚪 Logout
                             </button>
-                            <div style={styles.mobileUsername}>Hi, {user.name}!</div>
+                            <div style={styles.mobileUsername}>👋 Welcome, {user.name}</div>
                         </>
                     ) : (
                         <>
