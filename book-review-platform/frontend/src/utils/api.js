@@ -65,8 +65,13 @@ export const loginUser = async (userData) => {
 };
 
 // Book API calls
-export const fetchBooks = async (page = 1) => {
-    const response = await api.get(`/books?page=${page}`);
+export const fetchBooks = async (page = 1, search = '', genre = '') => {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    if (search) params.append('search', search);
+    if (genre) params.append('genre', genre);
+    
+    const response = await api.get(`/books?${params.toString()}`);
     return response.data;
 };
 
