@@ -47,23 +47,37 @@ const BookDetail = ({ book, reviews }) => {
             {/* Decorative background elements */}
             <div style={{
                 position: 'absolute',
-                top: '-50px',
-                right: '-50px',
-                width: '200px',
-                height: '200px',
-                background: 'rgba(255,255,255,0.1)',
+                top: '-100px',
+                right: '-100px',
+                width: '300px',
+                height: '300px',
+                background: 'rgba(255,255,255,0.05)',
                 borderRadius: '50%',
-                zIndex: 0
+                zIndex: 0,
+                pointerEvents: 'none'
             }} />
             <div style={{
                 position: 'absolute',
-                bottom: '-30px',
-                left: '-30px',
-                width: '150px',
-                height: '150px',
-                background: 'rgba(255,255,255,0.1)',
+                bottom: '-80px',
+                left: '-80px',
+                width: '250px',
+                height: '250px',
+                background: 'rgba(255,255,255,0.05)',
                 borderRadius: '50%',
-                zIndex: 0
+                zIndex: 0,
+                pointerEvents: 'none'
+            }} />
+            <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '400px',
+                height: '400px',
+                background: 'rgba(255,255,255,0.03)',
+                borderRadius: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 0,
+                pointerEvents: 'none'
             }} />
 
             <div style={{ position: 'relative', zIndex: 1 }}>
